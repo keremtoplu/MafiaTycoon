@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Scenerio : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField]
+    private Transform lookAtPos;
+
+    public Transform LookAtPos=>lookAtPos;
     void Start()
     {
         
