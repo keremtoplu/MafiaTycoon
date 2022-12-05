@@ -5,6 +5,7 @@ using UnityEngine;
 public enum GameStates
 {
     Start,
+    InGame,
     Scenerio,
     Final
 }

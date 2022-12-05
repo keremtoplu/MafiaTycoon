@@ -19,8 +19,9 @@ public class CameraController : MonoBehaviour
     {
         GameManager.Instance.GameStateChanged+=OnGameStateChanged;
         cam=Camera.main;
+        
         beginOffSett=offSet;
-        beginRot=cam.transform.rotation;
+        beginRot=cam.transform.rotation;        
     }
 
 
@@ -38,6 +39,8 @@ public class CameraController : MonoBehaviour
         switch (state)
         {
             case GameStates.Start:
+                break;
+            case GameStates.InGame:
                 offSet=beginOffSett;
                 cam.transform.rotation=beginRot;
                 break;

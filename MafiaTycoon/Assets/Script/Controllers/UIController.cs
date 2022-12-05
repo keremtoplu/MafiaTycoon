@@ -2,13 +2,25 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
    [SerializeField]
    private GameObject choosePanel;
    [SerializeField]
+   private GameObject startPanel;
+   [SerializeField]
    private GameObject savePeoplePanel;
+
+   [SerializeField]
+   private GameObject ınGamePanel;
+
+   [SerializeField]
+   private Text clanMemberValue;
+
+    [SerializeField]
+   private Text healthValue;
 
    [SerializeField]
    private Movement player;
@@ -21,30 +33,26 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.GameStateChanged+=OnGameStateChanged;
-        choosePanel.SetActive(false);
-        savePeoplePanel.SetActive(false);
         
     }
+
 
     private void Update() 
     {
         timer-=Time.deltaTime;    
         if(timer<=0 && isTransition==true)
         {
-            choosePanel.SetActive(false);
+            AllPanelClose();
             savePeoplePanel.SetActive(true);
         }
     }
 
-
-    public void HelpButton()
+    private void AllPanelClose()
     {
-        GameManager.Instance.UpdateGameState(GameStates.Start);
-    }
-
-    public void DoNothingButton()
-    {
-        GameManager.Instance.UpdateGameState(GameStates.Start);
+        choosePanel.SetActive(false);
+        startPanel.SetActive(false);
+        savePeoplePanel.SetActive(false);
+        ınGamePanel.SetActive(false);
     }
 
     private void OnGameStateChanged()
@@ -53,18 +61,35 @@ public class UIController : MonoBehaviour
         switch (state)
         {
             case GameStates.Start:
+                player.ClanMemberChanged+=OnClanMemberChanged;
+                player.HealthChanged+=OnHealtChanged;
+                AllPanelClose();
+                startPanel.SetActive(true);
+                break;
+
+            case GameStates.InGame:
                 isTransition=false;
-                savePeoplePanel.SetActive(false);
+                AllPanelClose();
+                ınGamePanel.SetActive(true);
                 player.Speed=1f;
                 break;
 
             case GameStates.Scenerio:
+                AllPanelClose();
                 choosePanel.SetActive(true);
                 timer=2f;
                 isTransition=true;
-                Debug.Log("asd");
                 break;
             
         }
+    }
+    private void OnClanMemberChanged()
+    {
+        clanMemberValue.text=player.CurrnetClanMember.ToString();
+    }
+    private void OnHealtChanged()
+    {
+        
+        healthValue.text=player.Health.ToString();
     }
 }
