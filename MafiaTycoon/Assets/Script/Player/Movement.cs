@@ -8,6 +8,9 @@ public class Movement : MonoBehaviour
     [SerializeField]
     private GameObject playerPref;
 
+    [SerializeField]
+    private BulletManager bulletManager;
+
     private int currentClanMember;
     Animator anim;
     private float speed;
@@ -123,6 +126,8 @@ public class Movement : MonoBehaviour
             case GameStates.Final:
                 anim.SetTrigger("Idle");
                 speed=0f;
+                clonePlayer();
+                bulletManager.Shoot();
                 break;
         }
     }
